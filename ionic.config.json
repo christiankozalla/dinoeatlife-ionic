@@ -1,0 +1,7 @@
+{
+  "name": "puroviva-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
