@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss'],
+  selector: 'app-posts',
+  templateUrl: 'posts.page.html',
+  styleUrls: ['posts.page.scss'],
 })
-export class Tab2Page implements OnInit {
+export class PostsPage implements OnInit {
   posts: Observable<any>;
 
   constructor(private http: HttpClient) {}
