@@ -7,5 +7,5 @@ export interface Profile {
     twitter?: string;
     github?: string;
     website?: string;
-  }
+  };
 }
