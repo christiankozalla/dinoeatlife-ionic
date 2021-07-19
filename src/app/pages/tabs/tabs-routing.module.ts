@@ -9,23 +9,26 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        loadChildren: () =>
+          import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
         path: 'posts',
-        loadChildren: () => import('../posts/posts.module').then(m => m.PostsPageModule)
+        loadChildren: () =>
+          import('../posts/posts.module').then((m) => m.PostsPageModule),
       },
       {
         path: 'list',
-        loadChildren: () => import('../list/list.module').then(m => m.ListPageModule)
-      }
-    ]
+        loadChildren: () =>
+          import('../list/list.module').then((m) => m.ListPageModule),
+      },
+      {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full',
+      },
+    ],
   },
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({
