@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Home } from 'src/app/model/home';
 import { ApiService } from 'src/app/services/api.service';
 import { HomeStoreService } from 'src/app/services/home-store.service';
 
@@ -8,12 +9,9 @@ import { HomeStoreService } from 'src/app/services/home-store.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  constructor(
-    private api: ApiService,
-    public homeStore: HomeStoreService
-    ) {}
+  constructor(public homeStore: HomeStoreService) {}
 
   ngOnInit(): void {
-
+    this.homeStore.getHomeData();
   }
 }

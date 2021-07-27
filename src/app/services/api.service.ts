@@ -2,7 +2,7 @@ import { environment as env } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../model/user';
+import { Home } from '../model/home';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,9 @@ import { User } from '../model/user';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  getHomeData(userId: User['id']): Observable<object> {
-    return this.http.get(`${env.API_URL}/home`);
+  getHomeData(): Observable<Home> {
+    return this.http.get<Home>(`${env.API_URL}/home`, {
+      responseType: 'json',
+    });
   }
 }

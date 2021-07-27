@@ -1,31 +1,34 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Store, initialState } from '../model/store';
 import { Home } from '../model/home';
-
-import { Post } from '../model/post';
+import { ApiService } from './api.service';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HomeStoreService {
-  private readonly _home = new BehaviorSubject<Home | null>(null);
-
-  // Observable if _recipes exposed to views
-  readonly home$ = this._home.asObservable();
-
-  private get home(): Home {
-    return this._home.getValue();
+export class HomeStoreService extends Store<Home> {
+  constructor(private api: ApiService) {
+    super(initialState);
   }
 
-  // setter is invoked when assigning recipes to this.recipes
-  private set home(home: Home) {
-    this._home.next(home);
-  }
+  public readonly posts$ = this.state$.pipe(map((state) => state.posts));
 
-  addPost(post: Post) {
-    this.home = {
-      ...this.home,
-      posts: [...this.home.posts, post],
-    };
+  public readonly recipes$ = this.state$.pipe(map((state) => state.recipes));
+
+  public readonly ingredients$ = this.state$.pipe(map((state) => state.ingredients));
+
+  public getHomeData() {
+    this.api.getHomeData().subscribe(
+      (newState) =>
+        this.setState({
+          ...this.state,
+          ...newState,
+        }),
+      catchError((e) => {
+        console.error(e);
+        throw new Error(e);
+      })
+    );
   }
 }
