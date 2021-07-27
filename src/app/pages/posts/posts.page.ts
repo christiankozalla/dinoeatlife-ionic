@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment as env } from '../../../environments/environment';
+import { HomeStoreService } from 'src/app/services/home-store.service';
 
 @Component({
   selector: 'app-posts',
@@ -9,11 +7,9 @@ import { environment as env } from '../../../environments/environment';
   styleUrls: ['posts.page.scss'],
 })
 export class PostsPage implements OnInit {
-  posts: Observable<any>;
-
-  constructor(private http: HttpClient) {}
+  constructor(private homeStore: HomeStoreService) {}
 
   ngOnInit() {
-    this.posts = this.http.get(env.API_URL + '/posts');
+    this.homeStore.getHomeData();
   }
 }
