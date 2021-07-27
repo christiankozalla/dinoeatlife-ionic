@@ -8,17 +8,16 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Observable, of, Subscription, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { ToastController } from '@ionic/angular';
-import { catchError } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   // Used for queued API calls while refreshing tokens
-  token: Subscription = this.authService.token.subscribe((token) => token);
   isRefreshingToken = false;
-  blockList: Array<string> = [env.API_URL + '/login'];
+  blockList: Array<string> = [env.API_URL + '/login', env.API_URL + '/refresh'];
 
   constructor(private authService: AuthenticationService, private toastCtrl: ToastController) {}
 
@@ -52,11 +51,12 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   private addToken(request: HttpRequest<any>) {
-    if (this.token) {
+    let currentToken: string = this.authService.token.getValue();
+    if (currentToken) {
       // additionally check if token not expired yet
       return request.clone({
         headers: new HttpHeaders({
-          Authorization: `Bearer ${this.token}`,
+          Authorization: 'Bearer ' + currentToken,
         }),
       });
     } else {
@@ -87,7 +87,7 @@ export class JwtInterceptor implements HttpInterceptor {
     if (!this.isRefreshingToken) {
       // Set to null so other requests will wait
       this.isRefreshingToken = true;
-      this.authService.token.next('');
+      // this.authService.token.next('');
 
       // Get a new accessToken
       return this.authService.getNewAccessToken();

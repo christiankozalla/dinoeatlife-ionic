@@ -29,6 +29,7 @@ export class AuthenticationService {
     // Producer for token observable
     const token = await Storage.get({ key: TOKEN_KEY });
     if (token && token.value) {
+      this.token.next(token.value);
       this.isAuthenticated.next(true);
     } else {
       this.isAuthenticated.next(false);
