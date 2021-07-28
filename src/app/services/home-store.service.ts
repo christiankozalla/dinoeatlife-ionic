@@ -26,7 +26,7 @@ export class HomeStoreService extends Store<Home> {
           ...newState,
         }),
       catchError((e) => {
-        console.error(e);
+        console.error(e.error);
         throw new Error(e);
       })
     );
